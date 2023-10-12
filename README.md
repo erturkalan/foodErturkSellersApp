@@ -1,6 +1,7 @@
 # fooderturk_sellers_app
 
-A new Flutter project.
+A food delivery app with Flutter. 
+owner: Erturk Alan.
 
 ## Getting Started
 

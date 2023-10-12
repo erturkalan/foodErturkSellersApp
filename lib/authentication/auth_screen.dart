@@ -27,12 +27,16 @@ class _AuthScreenState extends State<AuthScreen> {
                         tileMode: TileMode.mirror)),
               ),
               automaticallyImplyLeading: false,
-              title: const Text(
-                "iFood",
-                style: TextStyle(
-                    color: Colors.white, fontFamily: "Lobster", fontSize: 60),
+              title: const Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Text(
+                  "iFood",
+                  style: TextStyle(
+                      color: Colors.white, fontFamily: "Lobster", fontSize: 60),
+                ),
               ),
               centerTitle: true,
+              toolbarHeight: 68,
               bottom: const TabBar(
                 tabs: [
                   Tab(
@@ -59,7 +63,7 @@ class _AuthScreenState extends State<AuthScreen> {
             body: Container(
               decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                colors: [Colors.red, Colors.redAccent],
+                colors: [Colors.redAccent, Colors.red],
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
               )),
