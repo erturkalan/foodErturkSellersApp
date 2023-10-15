@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Image.asset(
                 "images/seller.png",
                 height: 300,

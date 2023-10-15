@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fooderturk_sellers_app/widgets/custom_text_field.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -24,12 +26,70 @@ class _RegisterScreenState extends State<RegisterScreen> {
   XFile? imageXFile;
   final ImagePicker _picker = ImagePicker();
 
+  Position? position;
+  List<Placemark>? placeMarks;
+
   Future<void> _getImage() async {
     imageXFile = await _picker.pickImage(source: ImageSource.gallery);
 
     setState(() {
       imageXFile;
     });
+  }
+
+  getCurrentLocation() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever ||
+        permission == LocationPermission.unableToDetermine) {
+      permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.always ||
+          permission == LocationPermission.whileInUse) {
+        Position newPosition = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
+        position = newPosition;
+        placeMarks = await placemarkFromCoordinates(
+            position!.latitude, position!.longitude);
+
+        Placemark pMark = placeMarks![0];
+
+        String completeAddress =
+            "${pMark.subThoroughfare} ${pMark.thoroughfare}, ${pMark.subLocality} ${pMark.locality}, ${pMark.subAdministrativeArea} ${pMark.administrativeArea} ${pMark.postalCode}, ${pMark.country}";
+
+        locationController.text = completeAddress;
+      } else {
+        _showMyDialog("Location is not available");
+      }
+    }
+  }
+
+  Future<void> _showMyDialog(String alertText) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(alertText),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('We need you to give permission to access your location.')
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Okay'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -101,12 +161,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       isObscure: false,
                       enabled: false,
                     ),
-                    Container(
+                    SizedBox(
                         width: 320,
                         height: 40,
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            print("clicked");
+                            getCurrentLocation();
                           },
                           icon: const Icon(Icons.location_on,
                               color: Colors.white),
