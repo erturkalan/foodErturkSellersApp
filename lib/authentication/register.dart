@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fooderturk_sellers_app/widgets/custom_text_field.dart';
+import 'package:fooderturk_sellers_app/widgets/error_dialog.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
@@ -70,26 +71,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(alertText),
-          content: const SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('We need you to give permission to access your location.')
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Okay'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
+        return ErrorDialog(errorMessage: alertText);
       },
     );
+  }
+
+  Future<void> formValidation() async {
+    if (imageXFile == null) {
+      _showMyDialog("Please select an image");
+    }
   }
 
   @override
@@ -186,7 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                //TODO: Sign Up!!
+                formValidation();
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.deepPurple,

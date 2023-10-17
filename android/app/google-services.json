@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "878625182861",
+    "project_id": "fooderturk",
+    "storage_bucket": "fooderturk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:878625182861:android:85a5cc6d790a6f5a4c3ec4",
+        "android_client_info": {
+          "package_name": "com.erturk.sellers_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbTyf-1cPG5vG0UhWBCwsZTLy264_JUXM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
